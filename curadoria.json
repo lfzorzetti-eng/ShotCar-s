@@ -1,0 +1,95 @@
+{
+  "marcas": {
+    "volkswagen": {
+      "nome": "Volkswagen",
+      "album": [
+        { "slug": "volkswagen-gol", "nome": "Gol", "raridade": "comum" },
+        { "slug": "volkswagen-polo", "nome": "Polo", "raridade": "comum" },
+        { "slug": "volkswagen-t-cross", "nome": "T-Cross", "raridade": "comum" },
+        { "slug": "volkswagen-golf", "nome": "Golf", "raridade": "incomum" },
+        { "slug": "volkswagen-fusca", "nome": "Fusca", "raridade": "incomum", "aliases": ["beetle", "type 1"] },
+        { "slug": "volkswagen-kombi", "nome": "Kombi", "raridade": "incomum", "aliases": ["type 2", "transporter"] },
+        { "slug": "volkswagen-karmann-ghia", "nome": "Karmann-Ghia", "raridade": "raro" },
+        { "slug": "volkswagen-sp2", "nome": "SP2", "raridade": "epico" }
+      ]
+    },
+    "chevrolet": {
+      "nome": "Chevrolet",
+      "album": [
+        { "slug": "chevrolet-onix", "nome": "Onix", "raridade": "comum" },
+        { "slug": "chevrolet-tracker", "nome": "Tracker", "raridade": "comum" },
+        { "slug": "chevrolet-s10", "nome": "S10", "raridade": "comum" },
+        { "slug": "chevrolet-opala", "nome": "Opala", "raridade": "incomum" },
+        { "slug": "chevrolet-camaro", "nome": "Camaro", "raridade": "raro" },
+        { "slug": "chevrolet-corvette", "nome": "Corvette", "raridade": "epico" }
+      ]
+    },
+    "fiat": {
+      "nome": "Fiat",
+      "album": [
+        { "slug": "fiat-uno", "nome": "Uno", "raridade": "comum" },
+        { "slug": "fiat-strada", "nome": "Strada", "raridade": "comum" },
+        { "slug": "fiat-argo", "nome": "Argo", "raridade": "comum" },
+        { "slug": "fiat-toro", "nome": "Toro", "raridade": "comum" },
+        { "slug": "fiat-147", "nome": "147", "raridade": "incomum" },
+        { "slug": "fiat-500", "nome": "500", "raridade": "incomum" }
+      ]
+    },
+    "ford": {
+      "nome": "Ford",
+      "album": [
+        { "slug": "ford-ka", "nome": "Ka", "raridade": "comum" },
+        { "slug": "ford-ranger", "nome": "Ranger", "raridade": "comum" },
+        { "slug": "ford-ecosport", "nome": "EcoSport", "raridade": "comum" },
+        { "slug": "ford-maverick", "nome": "Maverick", "raridade": "incomum" },
+        { "slug": "ford-mustang", "nome": "Mustang", "raridade": "raro" },
+        { "slug": "ford-gt", "nome": "GT", "raridade": "lendario" }
+      ]
+    },
+    "porsche": {
+      "nome": "Porsche",
+      "album": [
+        { "slug": "porsche-cayenne", "nome": "Cayenne", "raridade": "incomum" },
+        { "slug": "porsche-macan", "nome": "Macan", "raridade": "incomum" },
+        { "slug": "porsche-911", "nome": "911", "raridade": "raro" },
+        { "slug": "porsche-panamera", "nome": "Panamera", "raridade": "raro" },
+        { "slug": "porsche-356", "nome": "356", "raridade": "epico" },
+        { "slug": "porsche-carrera-gt", "nome": "Carrera GT", "raridade": "lendario" },
+        { "slug": "porsche-918-spyder", "nome": "918 Spyder", "raridade": "lendario" }
+      ]
+    },
+    "toyota": {
+      "nome": "Toyota",
+      "album": [
+        { "slug": "toyota-corolla", "nome": "Corolla", "raridade": "comum" },
+        { "slug": "toyota-hilux", "nome": "Hilux", "raridade": "comum" },
+        { "slug": "toyota-yaris", "nome": "Yaris", "raridade": "comum" },
+        { "slug": "toyota-sw4", "nome": "SW4", "raridade": "comum", "aliases": ["hilux sw4", "fortuner"] },
+        { "slug": "toyota-land-cruiser", "nome": "Land Cruiser", "raridade": "incomum" },
+        { "slug": "toyota-supra", "nome": "Supra", "raridade": "raro" }
+      ]
+    },
+    "honda": {
+      "nome": "Honda",
+      "album": [
+        { "slug": "honda-civic", "nome": "Civic", "raridade": "comum" },
+        { "slug": "honda-hr-v", "nome": "HR-V", "raridade": "comum" },
+        { "slug": "honda-city", "nome": "City", "raridade": "comum" },
+        { "slug": "honda-fit", "nome": "Fit", "raridade": "comum" },
+        { "slug": "honda-s2000", "nome": "S2000", "raridade": "raro" },
+        { "slug": "honda-nsx", "nome": "NSX", "raridade": "epico" }
+      ]
+    }
+  },
+  "extras": {
+    "volkswagen-jetta": "incomum",
+    "volkswagen-amarok": "comum",
+    "chevrolet-cruze": "comum",
+    "fiat-mobi": "comum",
+    "ford-fusion": "incomum",
+    "porsche-boxster": "raro",
+    "porsche-cayman": "raro",
+    "toyota-camry": "incomum",
+    "honda-accord": "incomum"
+  }
+}
