@@ -3,17 +3,328 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#14161c" />
-    <title>CarDex</title>
+    <meta name="theme-color" content="#05060b" />
+    <title>ShotCar's</title>
+    <meta name="description" content="Fotografe carros na rua e monte seus álbuns por marca, com raridade de comum a lendário." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
-    <header class="topo">
-      <a href="#/albuns" class="logo">Car<span>Dex</span></a>
-      <button id="sair" class="link" hidden>Sair</button>
-    </header>
-    <main id="app"></main>
-    <a href="#/camera" id="botao-camera" class="fab" hidden aria-label="Fotografar carro">📷</a>
+  <body data-view="inicio">
+    <div class="field" aria-hidden="true"></div>
+
+    <!-- Silhuetas genéricas (não reproduzem nenhum carro real) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eeff"/><stop offset="1" stop-color="#7d8bb3"/></linearGradient>
+        <symbol id="coupe" viewBox="0 0 300 120">
+          <path d="M18 88c0-10 6-16 18-19l44-10c14-14 34-26 62-27 32-1 56 10 76 26l40 6c14 2 24 9 24 20v8c0 4-3 6-7 6H25c-4 0-7-3-7-7z" fill="url(#paint)"/>
+          <path d="M92 60c12-12 28-21 50-22 22 0 40 8 54 20z" fill="#1a2140" opacity=".85"/>
+          <circle cx="78" cy="96" r="17" fill="#0c0f1c"/><circle cx="78" cy="96" r="8" fill="#5a6488"/>
+          <circle cx="232" cy="96" r="17" fill="#0c0f1c"/><circle cx="232" cy="96" r="8" fill="#5a6488"/>
+        </symbol>
+        <symbol id="hatch" viewBox="0 0 300 120">
+          <path d="M22 86c0-12 6-18 18-21l30-6c10-22 30-36 70-36h40c26 0 40 14 54 36l30 6c10 2 16 9 16 18v10c0 4-3 6-7 6H29c-4 0-7-3-7-7z" fill="url(#paint)"/>
+          <path d="M84 60c10-18 26-28 56-28h36c18 0 30 10 40 28z" fill="#1a2140" opacity=".85"/>
+          <circle cx="80" cy="96" r="17" fill="#0c0f1c"/><circle cx="80" cy="96" r="8" fill="#5a6488"/>
+          <circle cx="226" cy="96" r="17" fill="#0c0f1c"/><circle cx="226" cy="96" r="8" fill="#5a6488"/>
+        </symbol>
+        <symbol id="classic" viewBox="0 0 300 120">
+          <path d="M26 88c0-10 8-16 20-18 6-26 32-50 104-50s98 24 104 50c12 2 20 8 20 18v6c0 4-3 6-7 6H33c-4 0-7-2-7-6z" fill="url(#paint)"/>
+          <path d="M88 68c6-20 26-34 62-34s56 14 62 34z" fill="#1a2140" opacity=".85"/>
+          <circle cx="84" cy="98" r="16" fill="#0c0f1c"/><circle cx="84" cy="98" r="7" fill="#5a6488"/>
+          <circle cx="216" cy="98" r="16" fill="#0c0f1c"/><circle cx="216" cy="98" r="7" fill="#5a6488"/>
+        </symbol>
+        <symbol id="truck" viewBox="0 0 300 120">
+          <path d="M20 90V62c0-6 4-10 10-10h40l20-26c4-5 9-7 15-7h52c6 0 10 3 12 8l10 25h91c6 0 10 4 10 10v28c0 4-3 7-7 7H27c-4 0-7-3-7-7z" fill="url(#paint)"/>
+          <path d="M96 50l16-22c2-3 5-4 8-4h40c3 0 6 2 7 5l9 21z" fill="#1a2140" opacity=".85"/>
+          <circle cx="78" cy="98" r="17" fill="#0c0f1c"/><circle cx="78" cy="98" r="8" fill="#5a6488"/>
+          <circle cx="230" cy="98" r="17" fill="#0c0f1c"/><circle cx="230" cy="98" r="8" fill="#5a6488"/>
+        </symbol>
+      </defs>
+    </svg>
+
+    <nav class="nav glass" aria-label="Principal">
+      <a class="brand" href="#/" id="brand"><span class="brand-mark" aria-hidden="true"></span>ShotCar's</a>
+      <div class="tabs" id="tabs">
+        <a class="tab" href="#/camera" data-tab="camera">Câmera</a>
+        <a class="tab" href="#/albuns" data-tab="albuns">Álbuns</a>
+        <a class="tab" href="#/garagem" data-tab="garagem">Garagem</a>
+      </div>
+      <div class="nav-right">
+        <button class="btn btn-primary btn-sm guest-only" type="button" data-auth="entrar">Entrar</button>
+        <div class="account">
+          <span class="avatar" id="avatar" aria-hidden="true">F</span>
+          <button class="link-btn" type="button" id="sair">Sair</button>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="tabbar glass" aria-label="Abas">
+      <a href="#/camera" data-tab="camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Câmera</a>
+      <a href="#/albuns" data-tab="albuns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Álbuns</a>
+      <a href="#/garagem" data-tab="garagem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-6 9 6v10H3z"/><path d="M7 20v-7h10v7M7 16h10"/></svg>Garagem</a>
+    </nav>
+
+    <main>
+      <!-- ================= INÍCIO ================= -->
+      <div class="view" data-view="inicio">
+        <header class="hero wrap">
+          <div class="hero-copy">
+            <h1 class="headline">Todo carro na rua é uma carta.</h1>
+            <p class="lede">Fotografe, deixe a IA dizer qual é, e complete o álbum de cada marca. Do Gol de todo dia ao lendário que você vê uma vez na vida.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" type="button" data-auth="criar">Criar conta</button>
+              <button class="btn btn-glass" type="button" data-auth="entrar">Já tenho conta</button>
+            </div>
+          </div>
+
+          <div class="stage" aria-label="Exemplos de cartas do álbum">
+            <div class="deck" id="deck">
+              <article class="card glass is-back-l is-silhouette" data-r="epico">
+                <div class="card-top"><span>Volkswagen</span><span class="badge">Épico</span></div>
+                <div class="card-photo"><svg viewBox="0 0 300 120"><use href="#classic"/></svg></div>
+                <div class="card-name">Ainda não capturado</div>
+                <div class="card-meta"><span>Espaço 8 de 8</span><span>?</span></div>
+              </article>
+              <article class="card glass is-back-r" data-r="incomum">
+                <div class="card-top"><span>Volkswagen</span><span class="badge">Incomum</span></div>
+                <div class="card-photo"><svg viewBox="0 0 300 120"><use href="#hatch"/></svg></div>
+                <div class="card-name">Kombi</div>
+                <div class="card-meta"><span>Capturado 2 vezes</span><span>1957 a 2013</span></div>
+              </article>
+              <article class="card glass is-front" data-r="raro">
+                <div class="card-top"><span>Porsche</span><span class="badge">Raro</span></div>
+                <div class="card-photo"><svg viewBox="0 0 300 120"><use href="#coupe"/></svg></div>
+                <div class="card-name">911</div>
+                <div class="card-meta"><span>Primeira vez hoje</span><span>Desde 1964</span></div>
+              </article>
+            </div>
+            <div class="stage-shadow" aria-hidden="true"></div>
+          </div>
+        </header>
+
+        <section class="scrolly" id="scrolly" aria-label="Uma carta do ShotCar's por dentro">
+          <div class="scrolly-sticky wrap">
+            <div class="scrolly-copy">
+              <div class="step is-active" data-step="0"><h2>Cada captura vira uma carta.</h2><p>A foto que você tirou, com a marca, o modelo e o ano aproximado.</p></div>
+              <div class="step" data-step="1"><h2>A cor diz a raridade.</h2><p>Azul é raro. A mesma régua vale para todas as marcas.</p></div>
+              <div class="step" data-step="2"><h2>Vire a carta.</h2><p>No verso ficam quantas vezes você viu esse carro e onde ele entra no álbum.</p></div>
+              <div class="step" data-step="3"><h2>Ela tem um lugar certo.</h2><p>O 911 ocupa o espaço 3 do álbum Porsche. Faltam quatro para completar.</p></div>
+              <div class="progress-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="scene" aria-hidden="true">
+              <div class="scene-glow" id="scene-glow"></div>
+              <div class="slot-ghost" id="slot-ghost"></div>
+              <div class="flip" id="flip">
+                <div class="layer" style="--z:1"></div><div class="layer" style="--z:2"></div><div class="layer" style="--z:3"></div>
+                <div class="layer" style="--z:4"></div><div class="layer" style="--z:5"></div><div class="layer" style="--z:6"></div><div class="layer" style="--z:7"></div>
+                <div class="face front" data-r="raro">
+                  <div class="card-top"><span>Porsche</span><span class="badge">Raro</span></div>
+                  <div class="card-photo"><svg viewBox="0 0 300 120"><use href="#coupe"/></svg></div>
+                  <div class="card-name">911</div>
+                  <div class="card-meta"><span>Capturado hoje</span><span>Desde 1964</span></div>
+                </div>
+                <div class="face back" data-r="raro">
+                  <div class="card-top"><span>Porsche</span><span class="badge">Raro</span></div>
+                  <div class="back-name">Porsche 911</div>
+                  <dl class="stats">
+                    <div><dt>Álbum</dt><dd>Porsche, espaço 3 de 7</dd></div>
+                    <div><dt>Produção</dt><dd>Desde 1964</dd></div>
+                    <div><dt>Capturado</dt><dd>1 vez</dd></div>
+                    <div><dt>Certeza da IA</dt><dd>94%</dd></div>
+                  </dl>
+                  <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="wrap">
+          <div class="section-head reveal">
+            <h2 class="h2">Aponte, capture, guarde.</h2>
+            <p class="sub">Nada de formulário. A câmera abre, a IA reconhece o modelo e o carro vai direto para o álbum certo.</p>
+          </div>
+
+          <div class="bento">
+            <article class="tile glass t-camera reveal" id="demo-camera">
+              <h3>A IA reconhece o modelo</h3>
+              <p>Ela escolhe dentro de um catálogo curado. Se não tiver certeza, mostra dois ou três palpites e você confirma.</p>
+              <div class="viewfinder" id="demo-vf">
+                <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+                <span class="scanline" aria-hidden="true"></span>
+                <svg class="car" viewBox="0 0 300 120" aria-hidden="true"><use href="#coupe"/></svg>
+                <div class="detect glass"><span class="badge" data-r="raro">Raro</span><strong>Porsche 911</strong><span class="conf"><span data-count="94">0</span>% de certeza</span></div>
+                <button class="shutter" type="button" aria-label="Escanear de novo"></button>
+              </div>
+            </article>
+
+            <article class="tile glass t-album reveal">
+              <h3>Um álbum por marca</h3>
+              <p>Cada marca tem seus espaços. Os que faltam aparecem como silhueta.</p>
+              <div class="albums">
+                <div class="album-row rc" style="--i:0"><div class="album-row-top"><span>Porsche</span><span>3 de 7</span></div><div class="bar"><i style="--w: 43%; --i:0"></i></div></div>
+                <div class="album-row rc" style="--i:1"><div class="album-row-top"><span>Volkswagen</span><span>4 de 8</span></div><div class="bar"><i style="--w: 50%; --i:1"></i></div></div>
+                <div class="album-row rc" style="--i:2"><div class="album-row-top"><span>Fiat</span><span>1 de 6</span></div><div class="bar"><i style="--w: 17%; --i:2"></i></div></div>
+                <div class="album-row rc" style="--i:3"><div class="album-row-top"><span>Toyota</span><span>0 de 6</span></div><div class="bar"><i style="--w: 0%; --i:3"></i></div></div>
+              </div>
+            </article>
+
+            <article class="tile glass t-raridade reveal">
+              <h3>Raridade vale para todas as marcas</h3>
+              <p>Uma Cayenne é incomum no álbum Porsche. Um Corvette é épico no da Chevrolet. A régua é a mesma.</p>
+              <div class="tiers">
+                <span class="badge rc" data-r="comum" style="--i:0">Comum</span>
+                <span class="badge rc" data-r="incomum" style="--i:1">Incomum</span>
+                <span class="badge rc" data-r="raro" style="--i:2">Raro</span>
+                <span class="badge rc" data-r="epico" style="--i:3">Épico</span>
+                <span class="badge rc" data-r="lendario" style="--i:4">Lendário</span>
+              </div>
+            </article>
+
+            <article class="tile glass t-garagem reveal">
+              <h3>Fora do álbum vai para a Garagem</h3>
+              <p>Reconheceu um carro que não tem espaço no álbum? Ele fica guardado mesmo assim.</p>
+              <div class="garage" aria-hidden="true">
+                <div class="garage-slot rc" style="--i:0"><svg viewBox="0 0 300 120"><use href="#hatch"/></svg></div>
+                <div class="garage-slot rc" style="--i:1"><svg viewBox="0 0 300 120"><use href="#truck"/></svg></div>
+                <div class="garage-slot rc" style="--i:2"><svg viewBox="0 0 300 120"><use href="#classic"/></svg></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="wrap">
+          <div class="section-head reveal">
+            <h2 class="h2">Quão raro é o que você viu.</h2>
+            <p class="sub">A raridade mede quantas vezes você veria o carro na rua de uma cidade grande brasileira.</p>
+          </div>
+
+          <div class="specs glass reveal">
+            <div class="spec-row spec-head"><span>Nível</span><span>Na rua</span><span>Por exemplo</span></div>
+            <div class="spec-row rc" data-r="comum" style="--i:0"><span class="badge">Comum</span><span class="freq">Todo dia</span><span class="ex">Gol, Onix, Polo</span></div>
+            <div class="spec-row rc" data-r="incomum" style="--i:1"><span class="badge">Incomum</span><span class="freq">Toda semana</span><span class="ex">Cayenne, Macan, Fusca</span></div>
+            <div class="spec-row rc" data-r="raro" style="--i:2"><span class="badge">Raro</span><span class="freq">Algumas vezes por ano</span><span class="ex">911, Panamera, Karmann-Ghia</span></div>
+            <div class="spec-row rc" data-r="epico" style="--i:3"><span class="badge">Épico</span><span class="freq">Pouquíssimas vezes na vida</span><span class="ex">SP2, Corvette, NSX</span></div>
+            <div class="spec-row rc" data-r="lendario" style="--i:4"><span class="badge">Lendário</span><span class="freq">Quase impossível</span><span class="ex">Carrera GT, 918 Spyder, Ford GT</span></div>
+          </div>
+
+          <dl class="facts reveal">
+            <div class="fact glass rc" style="--i:0"><dt>Marcas no lançamento</dt><dd><span data-count="7">0</span>, de Volkswagen a Porsche</dd></div>
+            <div class="fact glass rc" style="--i:1"><dt>Catálogo</dt><dd>Montado com FIPE, vPIC e Wikidata</dd></div>
+            <div class="fact glass rc" style="--i:2"><dt>Clássicos</dt><dd>Incluídos, de antes de 1985 também</dd></div>
+          </dl>
+        </section>
+
+        <section class="cta wrap">
+          <div class="cta-panel glass reveal">
+            <span class="cta-glow" aria-hidden="true"></span>
+            <h2 class="h2">Comece pelo carro parado na sua rua.</h2>
+            <p class="sub">Crie sua conta, permita a câmera e o primeiro carro já entra no álbum.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" type="button" data-auth="criar">Criar conta</button>
+            </div>
+          </div>
+          <footer><span>ShotCar's</span><span>Projeto em teste.</span></footer>
+        </section>
+      </div>
+
+      <!-- ================= CÂMERA ================= -->
+      <div class="view" data-view="camera">
+        <div class="page wrap">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">Câmera</h1>
+              <p class="page-sub">Enquadre o carro de lado ou de frente e toque para capturar.</p>
+            </div>
+          </div>
+          <div class="cam-wrap">
+            <div class="cam glass" id="cam">
+              <video id="cam-video" playsinline muted autoplay></video>
+              <div class="mock" aria-hidden="true"><svg viewBox="0 0 300 120"><use href="#coupe"/></svg></div>
+              <div class="viewfinder-ui" id="cam-ui">
+                <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+                <span class="scanline"></span>
+              </div>
+              <div class="flash" id="flash"></div>
+              <div class="cam-bar glass">
+                <span id="cam-status">Câmera desligada</span>
+                <button class="cam-shutter" id="cam-shutter" type="button" aria-label="Capturar" disabled></button>
+              </div>
+            </div>
+            <aside class="side glass" aria-live="polite">
+              <h2 id="side-title">Pronto para capturar</h2>
+              <p id="side-text">Se o navegador perguntar, permita o acesso à câmera.</p>
+              <button class="btn btn-glass btn-sm" id="cam-allow" type="button" style="margin-top:16px" hidden>Permitir câmera</button>
+              <div class="result" id="result"></div>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= ÁLBUNS ================= -->
+      <div class="view" data-view="albuns">
+        <div class="page wrap">
+          <div class="page-head reveal">
+            <div>
+              <h1 class="page-title">Álbuns</h1>
+              <p class="page-sub">Um álbum por marca. Toque em um para ver os espaços que faltam.</p>
+            </div>
+            <div class="summary glass" id="summary"></div>
+          </div>
+          <div class="brand-grid reveal" id="brand-grid"></div>
+        </div>
+      </div>
+
+      <!-- ================= ÁLBUM DA MARCA ================= -->
+      <div class="view" data-view="album">
+        <div class="page wrap" id="album-page"></div>
+      </div>
+
+      <!-- ================= GARAGEM ================= -->
+      <div class="view" data-view="garagem">
+        <div class="page wrap">
+          <div class="page-head reveal">
+            <div>
+              <h1 class="page-title">Garagem</h1>
+              <p class="page-sub">Carros que você capturou e que não têm espaço em nenhum álbum. Nada se perde.</p>
+            </div>
+          </div>
+          <div id="garage-list"></div>
+        </div>
+      </div>
+
+      <div class="wrap aviso" id="aviso" hidden><div class="empty glass" id="aviso-texto"></div></div>
+    </main>
+
+    <div class="toast glass" id="toast" role="status"></div>
+
+    <div class="auth" id="auth" aria-hidden="true">
+      <div class="auth-card glass" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <button class="auth-close" type="button" id="auth-close" aria-label="Fechar">×</button>
+        <h2 id="auth-title">Entrar</h2>
+        <p class="auth-sub" id="auth-sub">Seus álbuns continuam de onde você parou.</p>
+        <div class="seg" role="group" aria-label="Tipo de acesso">
+          <button type="button" data-modo="entrar" aria-pressed="true">Entrar</button>
+          <button type="button" data-modo="criar" aria-pressed="false">Criar conta</button>
+        </div>
+        <form id="auth-form" novalidate>
+          <div class="field-row">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com">
+            <span class="err" id="e-email"></span>
+          </div>
+          <div class="field-row">
+            <label for="f-senha">Senha</label>
+            <input id="f-senha" name="senha" type="password" autocomplete="current-password" placeholder="Mínimo de 6 caracteres">
+            <span class="err" id="e-senha"></span>
+          </div>
+          <button class="btn btn-primary" type="submit" id="auth-submit">Entrar</button>
+        </form>
+      </div>
+    </div>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

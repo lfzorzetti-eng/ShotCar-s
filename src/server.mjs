@@ -10,7 +10,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 import { conectar } from './db.mjs';
-import { listarAlbuns, montarAlbum } from './album.mjs';
+import { listarAlbuns, listarGaragem, montarAlbum } from './album.mjs';
 import { criarReconhecedor } from './reconhecimento/index.mjs';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -164,6 +164,8 @@ await app.register(
       });
 
       privado.get('/albuns', (req) => listarAlbuns(db, req.usuarioId));
+
+      privado.get('/garagem', (req) => listarGaragem(db, req.usuarioId));
 
       privado.get('/album/:marca', async (req, reply) => {
         const album = await montarAlbum(db, req.usuarioId, req.params.marca);

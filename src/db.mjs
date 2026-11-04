@@ -7,7 +7,7 @@ export async function conectar() {
   if (!uri) throw new Error('MONGODB_URI não definida. Copie .env.example para .env e cole a connection string do Atlas.');
   client = new MongoClient(uri);
   await client.connect();
-  const db = client.db(process.env.MONGODB_DB || 'cardex');
+  const db = client.db(process.env.MONGODB_DB || 'shotcars');
   await criarIndices(db);
   return db;
 }

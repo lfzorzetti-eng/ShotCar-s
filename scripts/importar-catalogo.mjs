@@ -97,7 +97,7 @@ async function wikidata() {
       OPTIONAL { ?modelo wdt:P2032 ?fim }
     } GROUP BY ?nomeMarca ?nomeModelo`;
   const { results } = await getJson(`https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(sparql)}`, {
-    headers: { 'user-agent': 'CarDex/0.1 (catalogo de carros; script de importacao)', accept: 'application/sparql-results+json' },
+    headers: { 'user-agent': 'ShotCars/0.1 (catalogo de carros; script de importacao)', accept: 'application/sparql-results+json' },
   });
   for (const b of results.bindings) {
     acrescentar(b.nomeMarca.value, b.nomeModelo.value, 'wikidata', {

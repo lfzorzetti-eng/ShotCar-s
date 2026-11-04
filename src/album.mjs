@@ -71,11 +71,29 @@ export async function listarAlbuns(db, usuarioId) {
     .filter((m) => totalPorMarca.has(m.slug))
     .map((m) => {
       const daMarca = capturas.filter((c) => c.modelo.marca === m.slug);
+      const noAlbum = daMarca.filter((c) => c.modelo.noAlbum);
+      const niveis = noAlbum.map((c) => RARIDADES.indexOf(c.modelo.raridade));
       return {
         slug: m.slug,
         nome: m.nome,
-        progresso: { capturados: daMarca.filter((c) => c.modelo.noAlbum).length, total: totalPorMarca.get(m.slug) },
-        garagem: daMarca.filter((c) => !c.modelo.noAlbum).length,
+        progresso: { capturados: noAlbum.length, total: totalPorMarca.get(m.slug) },
+        garagem: daMarca.length - noAlbum.length,
+        melhorRaridade: RARIDADES[Math.max(-1, ...niveis)] ?? null,
+        raros: niveis.filter((n) => n >= RARIDADES.indexOf('raro')).length,
       };
     });
+}
+
+export async function listarGaragem(db, usuarioId) {
+  const [marcas, capturas] = await Promise.all([db.collection('marcas').find().sort({ nome: 1 }).toArray(), capturasDoUsuario(db, usuarioId)]);
+
+  return marcas
+    .map((m) => ({
+      marca: { slug: m.slug, nome: m.nome },
+      carros: capturas
+        .filter((c) => c.modelo.marca === m.slug && !c.modelo.noAlbum)
+        .map((c) => cartao(c.modelo, c))
+        .sort((a, b) => a.nome.localeCompare(b.nome)),
+    }))
+    .filter((g) => g.carros.length);
 }

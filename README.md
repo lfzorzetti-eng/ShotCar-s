@@ -1,4 +1,4 @@
-# CarDex
+# ShotCar's
 
 Pokédex de carros: fotografe um carro, a IA identifica marca e modelo, e ele entra no álbum da marca com uma raridade.
 Arquitetura completa no doc "Car'sShot's — Arquitetura".
@@ -45,4 +45,4 @@ Com mais de 300 modelos no catálogo, o reconhecimento é feito em duas etapas: 
 - `capturas` ganhou `status` (`confirmada` ou `pendente`) e `palpites`: captura com confiança < 0.6 fica pendente até o
   usuário escolher um palpite em `POST /api/capturas/:id/confirmar` (`{"slug": null}` descarta). Só as confirmadas contam no álbum.
 - A resposta da IA ganhou `palpites` (até 3 slugs), usados na confirmação.
-# ShotCar-s
+- `GET /api/garagem` lista os carros fora dos álbuns, por marca, e `GET /api/albuns` ganhou `melhorRaridade` e `raros`.
