@@ -1,20 +1,13 @@
-import { existsSync } from 'node:fs';
-import { mkdir } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
 import Fastify from 'fastify';
 import multipart from '@fastify/multipart';
-import fastifyStatic from '@fastify/static';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 import { conectar } from './db.mjs';
 import { listarAlbuns, listarGaragem, montarAlbum } from './album.mjs';
-import { PASTA_FOTOS, apagarFoto, fotosEmDisco, salvarFoto } from './fotos.mjs';
+import { apagarFoto, salvarFoto } from './fotos.mjs';
 import { criarReconhecedor } from './reconhecimento/index.mjs';
 
-const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const PASTA_WEB = path.join(RAIZ, 'web', 'dist');
 const CONFIANCA_MINIMA = 0.6;
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -25,11 +18,6 @@ const reconhecedor = criarReconhecedor();
 
 export const app = Fastify({ logger: { level: process.env.LOG_LEVEL || 'info' } });
 await app.register(multipart, { limits: { fileSize: 8 * 1024 * 1024, files: 1 } });
-if (fotosEmDisco) {
-  await mkdir(PASTA_FOTOS, { recursive: true });
-  await app.register(fastifyStatic, { root: PASTA_FOTOS, prefix: '/fotos/', decorateReply: false });
-}
-if (existsSync(PASTA_WEB)) await app.register(fastifyStatic, { root: PASTA_WEB, prefix: '/' });
 
 // Catálogo em memória por 1 minuto: vai junto no prompt a cada foto, não precisa ir ao banco toda vez.
 let catalogoCache = { em: 0, modelos: [] };
