@@ -20,6 +20,7 @@
   "dependencies": {
     "@fastify/multipart": "^10.1.6",
     "@fastify/static": "^10.1.8",
+    "@vercel/blob": "^2.8.2",
     "bcryptjs": "^3.0.3",
     "fastify": "^5.12.7",
     "jsonwebtoken": "^9.0.3",

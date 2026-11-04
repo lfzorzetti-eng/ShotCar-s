@@ -31,6 +31,12 @@ No computador, `localhost` já libera a câmera. No celular, a câmera exige HTT
 | `npm run ia:modelos` | Lista os modelos com visão no Ollama configurado |
 | `npm run ia:testar -- <pasta>` | Teste das 50 fotos: arquivos nomeados pelo slug esperado (`porsche-911.jpg`, `porsche-911-2.jpg`) |
 
+## Vercel
+
+`main` publica em produção pela integração com o GitHub. A API roda como função em `api/index.mjs` e o front sai de `web/dist`.
+Com `BLOB_READ_WRITE_TOKEN` definida as fotos vão para o Vercel Blob; sem ela, para `uploads/` (desenvolvimento local).
+O Atlas precisa aceitar conexões de fora em Network Access: as funções da Vercel não têm IP fixo.
+
 ## IA
 
 `RECONHECEDOR=ollama` usa o Ollama Cloud (padrão `gemma4:31b`). `RECONHECEDOR=mock` sorteia um modelo,

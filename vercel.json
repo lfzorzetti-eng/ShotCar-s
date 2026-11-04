@@ -1,0 +1,9 @@
+{
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "web/dist",
+  "rewrites": [{ "source": "/api/:caminho*", "destination": "/api/index" }],
+  "functions": {
+    "api/index.mjs": { "maxDuration": 300 }
+  }
+}
